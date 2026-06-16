@@ -4,7 +4,7 @@
 
 Send Telegram messages when FPP playlist and media events occur. Configure a Telegram Bot to receive real-time notifications when shows start, sequences play, or FPP itself starts and stops.
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.4.0-blue)
 ![FPP](https://img.shields.io/badge/FPP-6.0%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
