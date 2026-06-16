@@ -1,0 +1,6 @@
+# Ensure shell scripts always use LF line endings (required on Linux/FPP)
+*.sh text eol=lf
+*.php text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.inc text eol=lf

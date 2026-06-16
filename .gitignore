@@ -1,0 +1,3 @@
+# Old settings directory (inside plugin dir — no longer used)
+# Settings now live in /home/fpp/media/config/plugin.fpp-telegram.json
+.settings/

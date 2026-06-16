@@ -1,0 +1,38 @@
+{
+  "repoName": "fpp-telegram",
+  "name": "Telegram Notifications for FPP",
+  "linkName": "TelegramNotifications",
+  "author": "Jim Pier (jpier1)",
+  "description": "Send Telegram messages when FPP playlist and media events occur. Configure a Telegram bot to notify you when shows start, stop, or media plays.",
+  "homeURL": "https://github.com/jpier1/fpp-telegram",
+  "srcURL": "https://github.com/jpier1/fpp-telegram.git",
+  "bugURL": "https://github.com/jpier1/fpp-telegram/issues",
+  "allowUpdates": 1,
+  "pluginVersion": "1.4.0",
+  "versions": [
+    {
+      "minFPPVersion": "6.0",
+      "maxFPPVersion": "9.99",
+      "branch": "master",
+      "sha": "",
+      "allowUpdates": 1,
+      "dependencies": {
+        "plugins": [],
+        "packages": ["curl", "php-curl"],
+        "scripts": []
+      }
+    },
+    {
+      "minFPPVersion": "10.0",
+      "maxFPPVersion": "0",
+      "branch": "master",
+      "sha": "",
+      "allowUpdates": 1,
+      "dependencies": {
+        "plugins": [],
+        "packages": ["curl", "php-curl"],
+        "scripts": []
+      }
+    }
+  ]
+}

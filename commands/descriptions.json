@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Telegram - Send Message",
+    "description": "Send a Telegram message with optional variable substitution",
+    "script": "TelegramSendMessage.sh",
+    "args": [
+      {
+        "name": "Message",
+        "description": "Message text to send:",
+        "type": "string",
+        "optional": false
+      }
+    ]
+  },
+  {
+    "name": "Telegram - Enable Notifications",
+    "description": "Enable all Telegram notifications and send a status message. No-op if already enabled.",
+    "script": "TelegramEnableNotifications.sh",
+    "args": []
+  },
+  {
+    "name": "Telegram - Disable Notifications",
+    "description": "Disable all Telegram notifications and send a final status message. No-op if already disabled.",
+    "script": "TelegramDisableNotifications.sh",
+    "args": []
+  }
+]
