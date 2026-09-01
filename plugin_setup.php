@@ -237,14 +237,14 @@ function TelegramToggleNotifications() {
 
 function TelegramResetMessages() {
     var defaults = {
-        'msg_playlist_start':        'FPP: Playlist "%PLAYLIST%" started.',
-        'msg_playlist_end':          'FPP: Playlist "%PLAYLIST%" ended.',
-        'msg_sequence_start':        'FPP: Sequence "%SEQUENCE%" started.',
-        'msg_sequence_end':          'FPP: Sequence "%SEQUENCE%" stopped.',
-        'msg_fpp_start':             'FPP: Falcon Player started.',
-        'msg_fpp_stop':              'FPP: Falcon Player stopped.',
-        'msg_notifications_enabled':  'FPP Telegram notifications have been ENABLED.',
-        'msg_notifications_disabled': 'FPP Telegram notifications have been DISABLED.'
+        'msg_playlist_start':         '▶️ FPP: Playlist "%PLAYLIST%" started.',
+        'msg_playlist_end':           '🏁 FPP: Playlist "%PLAYLIST%" ended.',
+        'msg_sequence_start':         '🎶 FPP: Sequence "%SEQUENCE%" started.',
+        'msg_sequence_end':           '✖️ FPP: Sequence "%SEQUENCE%" stopped.',
+        'msg_fpp_start':              '✅ FPP: Falcon Player started.',
+        'msg_fpp_stop':               '🛑 FPP: Falcon Player stopped.',
+        'msg_notifications_enabled':  '🚀 FPP Telegram notifications have been ENABLED.',
+        'msg_notifications_disabled': '⛔ FPP Telegram notifications have been DISABLED.'
     };
     for (var k in defaults) {
         var el = document.getElementById(k);
