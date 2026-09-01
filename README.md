@@ -4,7 +4,7 @@
 
 Send Telegram messages when FPP playlist and media events occur. Configure a Telegram Bot to receive real-time notifications when shows start, sequences play, or FPP itself starts and stops.
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.4.1-blue)
 ![FPP](https://img.shields.io/badge/FPP-6.0%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
@@ -14,8 +14,8 @@ Send Telegram messages when FPP playlist and media events occur. Configure a Tel
 
 - **Automatic event notifications** — FPP Startup/Shutdown, Playlist Start/End, Sequence/Media Start/End
 - **Customizable message templates** with live variable substitution (`%PLAYLIST%`, `%SEQUENCE%`, `%HOSTNAME%`, `%DATETIME%`, `%STATUS%`)
-- **HTML, Markdown, and Plain Text** formatting support
-- **FPP Commands** — trigger messages at any step in a playlist or from the FPP event system
+- **HTML formatting** support with auto-escaped variable values
+- **FPP Commands** — trigger messages or toggle notifications at any step in a playlist
 - **Per-template Send Sample buttons** — test each message template individually from the settings page
 - **REST API** — send messages programmatically from external tools or scripts
 - **Activity log** — every send, skip, and error is written to `/home/fpp/media/logs/fpp-telegram.log`
@@ -32,9 +32,9 @@ The plugin adds a **Content → Telegram Notifications** menu entry with a four-
 | Tab | Purpose |
 |---|---|
 | **Bot Setup** | Enter Bot Token (masked, eye-icon toggle) and Chat ID, with step-by-step instructions for finding each; includes an inline **Send Test** section |
-| **Event Notifications** | Enable/disable automatic notifications per event type |
+| **Event Notifications** | Master on/off switch plus per-event enable/disable toggles |
 | **Message Templates** | Customize the message text for each event; each template has its own **Send Sample** button |
-| **Advanced** | Message format (HTML/Markdown/Plain), link preview toggle, FPP Command enable, HTTP proxy |
+| **Advanced** | Link preview toggle, FPP Command enable, HTTP proxy |
 
 ---
 
@@ -119,15 +119,15 @@ Use the **Send Sample** button on the Message Templates tab to preview how each 
 
 ## FPP Commands
 
-The plugin registers these commands in FPP's command system, available in playlist steps and the FPP Events UI:
+The plugin registers these commands in FPP's command system, available in playlist steps:
 
 | Command | Argument | Description |
 |---|---|---|
 | `Telegram - Send Message` | Message text | Send a custom message with variable substitution |
-| `Telegram - Playlist Started` | Playlist name (optional) | Send the playlist-start template |
-| `Telegram - Playlist Ended` | Playlist name (optional) | Send the playlist-end template |
-| `Telegram - Sequence Started` | Sequence name (optional) | Send the sequence-start template |
-| `Telegram - Sequence Ended` | Sequence name (optional) | Send the sequence-end template |
+| `Telegram - Enable Notifications` | — | Turn the master notifications switch on |
+| `Telegram - Disable Notifications` | — | Turn the master notifications switch off |
+
+Playlist and sequence notifications are event-driven only — they fire automatically and are not available as manual commands.
 
 ---
 
@@ -186,6 +186,12 @@ Bot Token, Chat ID, all six notification toggles, all six message templates, mes
 
 ---
 
+## Upgrading FPP
+
+If you upgrade FPP to a new major version (e.g. FPP 9 → FPP 10), the OS is re-imaged and all plugins are removed. After the upgrade, reinstall the plugin via the Plugin Manager using the URL above. Your settings at `/home/fpp/media/config/plugin.fpp-telegram.json` are stored on the media partition and will be preserved.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -195,6 +201,7 @@ Bot Token, Chat ID, all six notification toggles, all six message templates, mes
 | No response at all | FPP can't reach Telegram | Check internet connectivity; set a proxy in Advanced if needed |
 | Bot doesn't receive messages | Bot never started | Send your bot `/start` in Telegram first |
 | Group messages not arriving | Bot lacks permission | Make bot an admin, or allow it to send messages in group settings |
+| No notifications at all | Master switch is off | Check the master switch on the Event Notifications tab |
 
 Check `/home/fpp/media/logs/fpp-telegram.log` for detailed error messages.
 
@@ -211,14 +218,12 @@ fpp-telegram/
 ├── callbacks.php                # FPP auto-called for playlist/media events
 ├── CHANGELOG.md
 ├── commands/
-│   ├── descriptions.json        # Registers FPP commands
-│   ├── TelegramSendMessage.php  # Manual send command
-│   ├── TelegramFPPStarted.php   # Called by postStart.sh
-│   ├── TelegramFPPStopped.php   # Called by preStop.sh
-│   ├── TelegramPlaylistStarted.php
-│   ├── TelegramPlaylistEnded.php
-│   ├── TelegramSequenceStarted.php
-│   └── TelegramSequenceEnded.php
+│   ├── descriptions.json              # Registers FPP commands
+│   ├── TelegramSendMessage.php        # Manual send command
+│   ├── TelegramEnableNotifications.php
+│   ├── TelegramDisableNotifications.php
+│   ├── TelegramFPPStarted.php         # Called by postStart.sh
+│   └── TelegramFPPStopped.php         # Called by preStop.sh
 ├── scripts/
 │   ├── fpp_install.sh           # Runs on install/update; migrates settings if needed
 │   ├── fpp_uninstall.sh         # Runs on uninstall; removes persistent settings
