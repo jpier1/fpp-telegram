@@ -8,7 +8,7 @@
   "srcURL": "https://github.com/jpier1/fpp-telegram.git",
   "bugURL": "https://github.com/jpier1/fpp-telegram/issues",
   "allowUpdates": 1,
-  "pluginVersion": "1.4.1",
+  "pluginVersion": "1.4.2",
   "versions": [
     {
       "minFPPVersion": "6.0",
