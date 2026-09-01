@@ -12,6 +12,8 @@ BASEDIR=$(dirname "$0")
 cd "$BASEDIR" || exit
 cd ..
 
+FPPDIR="${FPPDIR:-/opt/fpp}"
+
 MEDIA_DIR="/home/fpp/media"
 LOG_FILE="${MEDIA_DIR}/logs/fpp-telegram.log"
 PLUGIN_VERSION=$(grep -o '"pluginVersion"[^,]*' pluginInfo.json \
