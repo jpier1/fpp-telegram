@@ -502,7 +502,7 @@ if (file_exists($_tgInfoFile)) {
 
 <?php if ($saveMessage): ?>
 <div class="tg-alert tg-alert-success"><?= esc($saveMessage) ?></div>
-<script>TelegramShowTab('<?= esc($activeTab) ?>');</script>
+<script>document.addEventListener('DOMContentLoaded', function() { TelegramShowTab('<?= esc($activeTab) ?>'); });</script>
 <?php endif; ?>
 <?php if ($saveError): ?>
 <div class="tg-alert tg-alert-error"><?= esc($saveError) ?></div>
