@@ -28,6 +28,7 @@ function saveTelegramSettings($settingsFile, $data) {
 // Handle POST - Save Settings
 $saveMessage = '';
 $saveError   = '';
+$activeTab   = 'bot';
 
 if (isset($_POST['action']) && $_POST['action'] === 'save') {
     $existing = loadTelegramConfig();
@@ -53,9 +54,17 @@ if (isset($_POST['action']) && $_POST['action'] === 'save') {
         'proxy_url'              => trim($_POST['proxy_url'] ?? ''),
         'disable_web_preview'    => isset($_POST['disable_web_preview'])    ? '1' : '0',
     );
+    $activeTab = in_array($_POST['active_tab'] ?? '', ['bot','events','messages','advanced'])
+        ? $_POST['active_tab'] : 'bot';
+    $tabLabels = [
+        'bot'      => 'Bot Setup',
+        'events'   => 'Event Notifications',
+        'messages' => 'Message Templates',
+        'advanced' => 'Advanced',
+    ];
     saveTelegramSettings($settingsFile, $s);
-    $saveMessage = 'Settings saved successfully.';
-    telegramLog('Settings saved via UI');
+    $saveMessage = $tabLabels[$activeTab] . ' settings saved successfully.';
+    telegramLog('Settings saved via UI (' . $tabLabels[$activeTab] . ')');
 
     // Ensure scripts stay executable after any plugin update
     exec("chmod +x " . escapeshellarg($pluginPath . "callbacks.php") . " 2>&1");
@@ -493,6 +502,7 @@ if (file_exists($_tgInfoFile)) {
 
 <?php if ($saveMessage): ?>
 <div class="tg-alert tg-alert-success"><?= esc($saveMessage) ?></div>
+<script>TelegramShowTab('<?= esc($activeTab) ?>');</script>
 <?php endif; ?>
 <?php if ($saveError): ?>
 <div class="tg-alert tg-alert-error"><?= esc($saveError) ?></div>
@@ -519,6 +529,7 @@ if (file_exists($_tgInfoFile)) {
 <div class="tg-tab-content" id="tab-bot">
     <form method="POST" action="plugin.php?plugin=fpp-telegram&page=plugin_setup.php">
     <input type="hidden" name="action" value="save">
+    <input type="hidden" name="active_tab" value="bot">
     <!-- Preserve all settings this tab does not display -->
     <?php if ($cfg['notify_fpp_start']      === '1'): ?><input type="hidden" name="notify_fpp_start"      value="1"><?php endif; ?>
     <?php if ($cfg['notify_fpp_stop']       === '1'): ?><input type="hidden" name="notify_fpp_stop"       value="1"><?php endif; ?>
@@ -603,6 +614,7 @@ if (file_exists($_tgInfoFile)) {
 <div class="tg-tab-content" id="tab-events">
     <form method="POST" action="plugin.php?plugin=fpp-telegram&page=plugin_setup.php">
     <input type="hidden" name="action" value="save">
+    <input type="hidden" name="active_tab" value="events">
     <input type="hidden" name="bot_token"          value="<?= esc($cfg['bot_token']) ?>">
     <input type="hidden" name="chat_id"            value="<?= esc($cfg['chat_id']) ?>">
     <input type="hidden" name="proxy_url"          value="<?= esc($cfg['proxy_url']) ?>">
@@ -687,6 +699,7 @@ if (file_exists($_tgInfoFile)) {
 <div class="tg-tab-content" id="tab-messages">
     <form method="POST" action="plugin.php?plugin=fpp-telegram&page=plugin_setup.php">
     <input type="hidden" name="action" value="save">
+    <input type="hidden" name="active_tab" value="messages">
     <input type="hidden" name="bot_token"              value="<?= esc($cfg['bot_token']) ?>">
     <input type="hidden" name="chat_id"                value="<?= esc($cfg['chat_id']) ?>">
     <input type="hidden" name="proxy_url"              value="<?= esc($cfg['proxy_url']) ?>">
@@ -755,6 +768,7 @@ if (file_exists($_tgInfoFile)) {
 <div class="tg-tab-content" id="tab-advanced">
     <form method="POST" action="plugin.php?plugin=fpp-telegram&page=plugin_setup.php">
     <input type="hidden" name="action" value="save">
+    <input type="hidden" name="active_tab" value="advanced">
     <input type="hidden" name="bot_token"              value="<?= esc($cfg['bot_token']) ?>">
     <input type="hidden" name="chat_id"                value="<?= esc($cfg['chat_id']) ?>">
     <input type="hidden" name="msg_playlist_start"     value="<?= esc($cfg['msg_playlist_start']) ?>">
